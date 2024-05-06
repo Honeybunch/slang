@@ -1698,6 +1698,13 @@ struct SPIRVEmitContext
             return emitGetStringHash(inst);
         case kIROp_AttributedType:
             return ensureInst(as<IRAttributedType>(inst)->getBaseType());
+        case kIROp_NonUniformResourceIndex:
+            {
+                // Directly emit NonUniformResourceIndex Operand0;
+                SpvInst* spvSrc = ensureInst(inst->getOperand(0));
+                emitOperand(getID(spvSrc));
+                return spvSrc;
+            }
         case kIROp_AllocateOpaqueHandle:
             return nullptr;
         case kIROp_HLSLTriangleStreamType:
